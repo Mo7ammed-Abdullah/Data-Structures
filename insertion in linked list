@@ -26,7 +26,7 @@ node *insert_in_between(node *start, int item, int index)               // inser
     node *ptr = start;                                                  // create a pointer node
     node *new_node = (node *)malloc(sizeof(node));
     int i ;
-    for (i=1 ; i < index - 1 ; i++)                                              // move pointer till the before postion of the index
+    for (i=1 ; i < index - 1 ; i++)                                      // move pointer till the before postion of the index
     {
         ptr = ptr->next;                                                // move pointer to next node [pointer ++]
         
