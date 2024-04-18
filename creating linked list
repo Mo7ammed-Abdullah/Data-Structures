@@ -2,29 +2,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct linked_list                         // self referential structure
+struct linked_list                                             // self referential structure
 {
     int num;
-    struct linked_list *next;              // a pointer pointing to same type structure ( next node)
+    struct linked_list *next;                                  // a pointer pointing to same type structure ( next node)
 };
 
-typedef struct linked_list node;           // here structure type is linked_list  so we shortly write node as the linked list elements are called node
+typedef struct linked_list node;                               // here structure type is linked_list  so we shortly write node as the linked list elements are called node
 
 int main()
 {
     int i, n, item;
 
-    node *start, *ptr;                    // create two  pointer variable,
-                                          // start keeps the address of 1st node and ptr keeps the address of current node
-    start = (node *)malloc(sizeof(node)); // memory allocation for first node
-    ptr = start;                          // now our current node is the first node
+    node *start, *ptr;                                        // create two  pointer variable,
+                                                              // start keeps the address of 1st node and ptr keeps the address of current node
+    start = (node *)malloc(sizeof(node));                     // memory allocation for first node
+    ptr = start;                                              // now our current node is the first node
     printf("How many elements: ");
-    scanf("%d", &n);                      // for multiple elements in linked list
+    scanf("%d", &n);                                          // for multiple elements in linked list
 
     for (i = 1; i <= n; i++)
     {
         printf("input a number: ");
-        scanf("%d", &ptr->num);           // enter value for num variable in the current node
+        scanf("%d", &ptr->num);                                  // enter value for num variable in the current node
 
         if (i != n) // for the next node
         {
