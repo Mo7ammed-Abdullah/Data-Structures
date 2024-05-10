@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
-
+                                            /// quick sort works on divide and conquer, where it has a pivot that is first element , using which we do the partition and find the partition index.
+                                            /// The left side of partition index is small (unsorted for first partiton) and the right side of partion index is large (unsorted for first partiton)
 int partition(int arr[], int low, int high)
 {
     int temp;
@@ -21,7 +22,7 @@ int partition(int arr[], int low, int high)
         } while (arr[j] > pivot);           /// j decrements , if it finds any element smaller then pivot it will break the loop to swap with greater element that i found  === [4(i) , 3 , 7 , 2 , 8 , 5(j)]
 
         if (i >= j)
-            return j;                       /// when i crosses j then the index of j is the partition index  === [4 , 3 , 2(j)(pi) , 7(i) , 8 , 5]
+            return j;                       /// when i crosses j then the index j is the partition index  === [4 , 3 , 2(j) , 7(i) , 8 , 5]
 
         temp = arr[j];                      /// swapping of arr[i] and arr[j]
         arr[j] = arr[i];
@@ -33,7 +34,7 @@ void quicksort(int arr[], int low, int high)
 {
     if (low < high)
     {
-        int pi = partition(arr, low, high);
+        int pi = partition(arr, low, high);  /// partition index
 
         quicksort(arr, low, pi);            /// sorts by partition function for left side of partition index
         quicksort(arr, pi + 1, high);        /// sorts by partition function for right side of partition index
