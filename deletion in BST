@@ -1,0 +1,131 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct node
+{
+    int data;
+    struct node *left;
+    struct node *right;
+};
+
+typedef struct node node;
+
+node *createnode(int value)
+{
+    node *newnode = (node *)malloc(sizeof(node));
+    newnode->data = value;
+    newnode->left = NULL;
+    newnode->right = NULL;
+
+    return newnode;
+}
+
+node *insert(node *root, int value)
+{
+    if (root == NULL)
+    {
+        root = createnode(value);
+    }
+    else
+    {
+        node *curr_root = root;
+        node *prev_root = NULL;
+        while (curr_root != NULL)
+        {
+            prev_root = curr_root;
+
+            if (value < curr_root->data)
+            {
+                curr_root = curr_root->left;
+            }
+            else if (value > curr_root->data)
+            {
+                curr_root = curr_root->right;
+            }
+        }
+        node *newnode = createnode(value);
+        if (value < prev_root->data)
+        {
+            prev_root->left = newnode;
+        }
+        else
+        {
+            prev_root->right = newnode;
+        }
+    }
+    return root;
+}
+void inorder(struct node *root)
+{
+    if (root != NULL)
+    {
+        inorder(root->left);
+        printf("%d ", root->data);
+        inorder(root->right);
+    }
+}
+
+node *inorderpredecessor(node *root)                                  // the inorderpre of a root is always located at the rightmost node of the left subtree
+{
+    root = root->left;                                                // so go left
+    while (root != NULL)
+    {
+        root = root->right;                                           //  and keep going right
+    }
+    return root;                                                      //  return the inorderpre
+}
+
+node *Delete(node *root, int key)
+{
+    node *ipre;
+
+    if (root == NULL)                                                        // step 3: base case, if the root is not found
+    {
+        return NULL;
+    }
+    if (root->left == NULL && root->right == NULL && root->data == key)      // step 2: base case, if the node is leaf node ie, last node delete it (case 1 )
+    {
+        free(root);
+        return NULL;
+    }
+
+    // searching for the NODE to be deleted
+    if (key < root->data)                                                   // step 1: search the node to be deleted
+    {
+        root->left = Delete(root->left, key);
+    }
+    else if (key > root->data)
+    {
+        root->right = Delete(root->right, key);
+    }
+    else                                                                    // step 4: if the node is found in middle of tree (case 3)
+    {
+        ipre = inorderpredecessor(root);                                    // we search its inorder pre
+        root->data = ipre->data;                                            // we replace the root data to be deleted with our inorder pre data
+        root->left = Delete(root->left, ipre->data);                        // then we recursively search the location of our inorder pre to delt it. at some point it will end up as leaf node then will be delted
+    }                                                                       // we start the search for delete of inorderpre from left root because the inorder pre is always found at left subtree
+    return root;
+}
+
+int main()
+{
+    int n, value, key;
+    node *root = NULL;                                                      // initially root is empty
+
+    cout << "Enter the number of elements: ";
+    cin >> n;
+
+    cout << "Enter the elements: ";
+    for (int i = 0; i < n; i++)
+    {
+        cin >> value;
+        root = insert(root, value);
+    }
+    cout << "Enter key to delete: ";
+    cin >> key;
+
+    Delete(root, key);
+    inorder(root);
+
+    return 0;
+}
