@@ -56,7 +56,7 @@ node *insert(node *root, int value)
     return root;
 }
 
-node *search(node *root, int key)
+node *search_rec(node *root, int key)                                // ********** recursive search ************ 
 {
     if (root == NULL)                                               // this is base case that will return NULL
     {                                                               // Either first root is NULL or we keep on searching and we reached the last NULL root. indicating key not found
@@ -68,18 +68,38 @@ node *search(node *root, int key)
     }
     else if (key < root->data)                                      // if the key is small we go to left root (recursive)
     {
-        return search(root->left, key);
+        return search_rec(root->left, key);
     }
     else                                                            // if the key is big we go to right root (recursive)
     {
-        return search(root->right, key);
+        return search_rec(root->right, key);
     }
+}
+
+struct node *search_iter(struct node *root, int key)                // ********** iterative search ************ 
+{
+    while (root != NULL)                                            // if the root reach NULL root , break out of loop and return NULL
+    {
+        if (key == root->data)                                      // if key is found at root->data return that root
+        {
+            return root;
+        }
+        else if (key < root->data)                                  // if key is smaller then root->data go to left root
+        {
+            root = root->left;
+        }
+        else                                                        // if key is greater then root->data go to right root
+            {
+                root = root->right;
+            }
+    }
+    return NULL;
 }
 
 int main()
 {
     int n, value, key;
-    node *root = NULL;                                                          // initially root is NULL
+    node *root = NULL;                                                              // initially root is NULL
 
     cout << "Enter the number of elements: ";
     cin >> n;
@@ -93,7 +113,7 @@ int main()
     cout << "Enter key to search: ";
     cin >> key;
 
-    if (search(root, key) == NULL)                                              // search function sends root and key . the function will return NULL if key is not found , or the root where the key is found
+    if (search_iter(root, key) == NULL)                                              // search function sends root and key . the function will return NULL if key is not found , or the root where the key is found
     {
         cout << "The key " << key << " is <not found>";                          
     }
