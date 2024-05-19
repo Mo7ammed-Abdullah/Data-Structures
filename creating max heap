@@ -38,6 +38,15 @@ void buildheap(int arr[], int n)
     }
 }
 
+void print(int arr[], int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+}
+
 int main()
 {
     int n;
@@ -53,10 +62,7 @@ int main()
     }
     buildheap(arr, n);
     cout << "The maxheap elements are" << endl;
-    for (int i = 0; i < n; i++)
-    {
-        cout << arr[i] << " ";
-    }
+   
 
     return 0;
 }
