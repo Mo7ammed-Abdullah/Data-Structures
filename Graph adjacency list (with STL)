@@ -4,7 +4,7 @@ using namespace std;
 
 vector<int> adjList[10];                            // Array of vectors . each array index have a vector . array index represent vertex and vector of that index represent list of connected neighbours(edges)
 
-void addEdge(int u, int v)                          // Function to add an edge to the adjacency list for undirected graph
+void addEdge(int u, int v)                          // Function to create an undirected edge between two vertex
 {
     
                                                     //  exampe:
