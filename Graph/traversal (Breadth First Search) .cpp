@@ -1,138 +1,55 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
-#define size 50
 
-int Queue[size + 1];
-int adj[size][size];
-int n;
-
-int front = 0, rear = 0;
-
-
-// Queue operation
-void enqueue(int item)
+void BFS(int n , vector<vector<int>> &adj_list)
 {
+    vector<int> visited(n+1,0);                     // vector to keep track of visited nodes
+    queue<int> q;                                   
 
-    if ((front == 1 && rear == size) || front == rear + 1)
-    {
-        cout << "Queue is full" << endl;
-        return;
-    }
+    int start_node;
+    cin>>start_node;
 
-    if (front == 0)
-    {
-        front = 1;
-        rear = 1;
-    }
-    else
-    {
-        rear++;
-    }
-    Queue[rear] = item;
-}
+    visited[start_node] = 1;                        // first node visited
+    q.push(start_node);                                  // push it in queue to visit its neighbour                            
 
-int dequeue()
-{
-    int item;
-    if (front == 0)
+    cout<<"BFS TRAVERSAL: ";
+    while(!q.empty())
     {
-        cout << "underflow" << endl;
-        return -1;
-    }
-    item = Queue[front];
-    if (front == rear)
-    {
-        front = 0;
-        rear = 0;
-    }
-    else
-    {
-        front = front + 1;
-    }
-    return item;
-}
+        int node = q.front();                       // take out the front node from the queue
+        q.pop();
 
-
-// creating an adjacent matrix undirected graph
-void create_graph()
-{
-    int max_edges, i, j, origin, destin;
-
-    cout << "enter number of vertices: ";
-    cin >> n;
-
-    for (i = 0; i < n; i++)
-    {
-        for (j = 0; j < n; j++)
+        cout<<node<<" ";
+        for(auto neighbour : adj_list[node])        // and visit its neighbour
         {
-            adj[i][j] = 0;
-        }
-    }
-
-    max_edges = n * (n - 1) / 2;
-
-    for (i = 0; i < max_edges; i++)
-    {
-        cout << "Enter edges (enter 0 0 to end):";
-        cin >> origin >> destin;
-
-        if (origin == 0 && destin == 0)
-        {
-            break;
-        }
-
-        adj[origin][destin] = 1;
-        adj[destin][origin] = 1;                        // comment this if you want a directed graph
-    }
-
-    cout << "The adjacency matrix is:" << endl;
-    for (i = 0; i < n; i++)
-    {
-        for (j = 0; j < n; j++)
-        {
-            cout << adj[i][j] << " ";
-        }
-        cout << endl;
-    }
-}
-
-// BFS traversal
-void BFS()
-{
-    int i;
-    int exploring;
-    int visited[n] = {0};                                 // initialize visited as 0 since no node is yet visited
-
-    cout << "Choose node to begin Traversal: ";
-    cin >> i;
-
-    visited[i] = 1;                                       // the first vertex is always considered as visited
-
-    cout << i << " ";
-    enqueue(i);                                           // insert first vertex in queue
-
-    while (front != 0 && rear != 0)                       // till queue is empty
-    {
-        exploring = dequeue();                            // exploring takes out first vertex from queue to find its visited node
-        for (int j = 0; j < n; j++)
-        {
-
-            if (adj[exploring][j] == 1 && visited[j] == 0)   //eg: if exploring is 0, then we iterate 0th row of matrix  , if 1 is found at 2nd column of that row, we mark visited[2] as 1 . which means 2nd vertex is visited
+            if(!visited[neighbour])
             {
-                cout << j << " ";
-                visited[j] = 1;
-                enqueue(j);                                 // hence insert 2  in queue to dequeue it and explore its connected vertices.
+                visited[neighbour] = 1;             // if the neighbour node is not visited , push them in queue to visit his neighbours
+                q.push(neighbour);
             }
         }
     }
-}
+    cout<<endl;
+
+} 
 
 int main()
 {
+    int nodes,edges;
+    cin>>nodes>>edges;
 
-    create_graph();
+    vector<vector<int>> adj_list(nodes+1);
 
-    BFS();
+    for(int i = 0 ; i<edges ; i++)                              // input into adjacency list
+    {
+        int u , v;
+        cin >> u >> v;
+        adj_list[u].push_back(v);
+        adj_list[v].push_back(u);
+    }
+    BFS(nodes , adj_list );
 
+
+ 
     return 0;
 }
+ 
