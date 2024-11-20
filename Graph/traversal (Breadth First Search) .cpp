@@ -10,7 +10,7 @@ void BFS(int n , vector<vector<int>> &adj_list)
     cin>>start_node;
 
     visited[start_node] = 1;                        // first node visited
-    q.push(start_node);                                  // push it in queue to visit its neighbour                            
+    q.push(start_node);                             // push it in queue to visit its neighbour                            
 
     cout<<"BFS TRAVERSAL: ";
     while(!q.empty())
