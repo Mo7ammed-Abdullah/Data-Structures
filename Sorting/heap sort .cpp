@@ -1,56 +1,60 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// Function to heapify a subtree rooted at 'root' in an array of size 'n'
 void heapify(int arr[], int n, int root)
 {
-    int temp;
-    int largest = root;
-    int l = 2 * root + 1;
-    int r = 2 * root + 2;
+    int largest = root; // Initialize largest as root
+    int left = 2 * root + 1; // Left child index
+    int right = 2 * root + 2; // Right child index
 
-    if (l < n && arr[l] > arr[largest])
+    // If left child exists and is greater than root
+    if (left < n && arr[left] > arr[largest])
     {
-        largest = l;
+        largest = left;
     }
-    if (r < n && arr[r] > arr[largest])
+    // If right child exists and is greater than the current largest
+    if (right < n && arr[right] > arr[largest])
     {
-        largest = r;
+        largest = right;
     }
 
+    // If largest is not root, swap and continue heapifying
     if (largest != root)
     {
-        temp = arr[largest];
-        arr[largest] = arr[root];
-        arr[root] = temp;
-
+        swap(arr[root], arr[largest]);
         heapify(arr, n, largest);
     }
 }
 
-void buildheap(int arr[], int n)
+// Function to build a max heap from the input array
+void buildHeap(int arr[], int n)
 {
-    int strt_idx = (n / 2) - 1;
-
-    for (int i = strt_idx; i >= 0; i--)
+    // Start from the last non-leaf node and heapify each node
+    for (int i = n / 2 - 1; i >= 0; i--)
     {
         heapify(arr, n, i);
     }
 }
 
-void sort_heap(int arr[], int n)
+// Function to perform heap sort
+void heapSort(int arr[], int n)
 {
-    int temp;
-    for (int i = n - 1; i > 0; i--)                 // start from i'th element  === [40 30 15 10 20]
-    {                                               //                                            i
-        temp = arr[i];
-        arr[i] = arr[0];                            // swap i'th element with root. as root is max . now i'th element is sorted ==== [20 30 15 10   | 40]
-        arr[0] = temp;
+    buildHeap(arr, n); // Step 1: Build a max heap
 
-        heapify(arr, i, 0);                         // now i=i-1 which means last element is excluded . heapify the remaining elements so that max is at root === [20 30 15 10   | 40]
-    }                                               //                                                                                                                       i
-}                                                   // after heapification [30 20 15 10   | 40]
-                                                    //                                i
-void print(int arr[], int n)
+    // Extract elements one by one from the heap
+    for (int i = n - 1; i > 0; i--)
+    {
+        // Move current root to the end
+        swap(arr[0], arr[i]);
+
+        // Call heapify on the reduced heap
+        heapify(arr, i, 0);
+    }
+}
+
+// Function to print the array
+void printArray(int arr[], int n)
 {
     for (int i = 0; i < n; i++)
     {
@@ -62,20 +66,21 @@ void print(int arr[], int n)
 int main()
 {
     int n;
-    int arr[100];
+    cin >> n; // Input the size of the array
 
-    cout << "Enter the number of elements: ";
-    cin >> n;
-    cout << "Enter the elements in to heap:";
+    int arr[n]; // Declare an array of size 'n'
 
+    // Input the array elements
     for (int i = 0; i < n; i++)
     {
         cin >> arr[i];
     }
-    buildheap(arr, n);
-    sort_heap(arr, n);
+
+    // Perform heap sort
+    heapSort(arr, n);
+
     cout << "The heap sort is:" << endl;
-    print(arr, n);
+    printArray(arr, n);
 
     return 0;
 }
